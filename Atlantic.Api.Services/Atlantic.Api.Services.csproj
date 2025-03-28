@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ProjectGuid>{AD09BE53-C92B-4967-AEE5-CD24DE175404}</ProjectGuid>
+    <SonarQubeTestProject>false</SonarQubeTestProject>
+    <Configurations>Debug;Release;dev;qas;prd</Configurations>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.0" />
+    <PackageReference Include="Polly" Version="7.2.3" />
+    <PackageReference Include="RestEase" Version="1.5.7" />
+    <PackageReference Include="RestingLogger" Version="1.0.1" />
+    <PackageReference Include="StackExchange.Redis" Version="2.6.70" />
+	<PackageReference Include="System.Text.Json" Version="8.0.4" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.6.0" />
+    <PackageReference Include="TimeZoneConverter" Version="6.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Atlantic.Api.Models\Atlantic.Api.Models.csproj" />
+  </ItemGroup>
+</Project>

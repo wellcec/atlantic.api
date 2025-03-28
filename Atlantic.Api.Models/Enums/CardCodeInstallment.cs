@@ -1,0 +1,16 @@
+﻿namespace Atlantic.Api.Models.Enums
+{
+    public enum CardCodeInstallment
+    {
+        VISA_ONE_INSTALLMENT = 4,
+        VISA_MORE_ONE_INSTALLMENT = 16,
+        DINERS_ONE_INSTALLMENT = 30,
+        DINERS_MORE_ONE_INSTALLMENT = 31,
+        MASTER_ONE_INSTALLMENT = 7,
+        MASTER_MORE_ONE_INSTALLMENT = 8,
+        ELO_ONE_INSTALLMENT = 26,
+        ELO_MORE_ONE_INSTALLMENT = 27,
+        AMERICAN_ONE_INSTALLMENT = 13,
+        AMERICAN_MORE_ONE_INSTALLMENT = 14,
+    }
+}
