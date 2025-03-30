@@ -14,12 +14,12 @@ using Atlantic.Api.Models.Mapper;
 using Atlantic.Api.Models.UI;
 using Atlantic.Api.Services;
 using Atlantic.Api.Services.Interfaces;
-using Atlantic.Api.Data.NotificationTemplatesContext;
-using Atlantic.Api.Data.NotificationTemplatesContext.Repositories;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using Atlantic.Api.Data.EcommerceDataContext.Repositories.Interfaces;
 using Atlantic.Api.Data.EcommerceDataContext.Repositories;
+using Atlantic.Api.Facades.Core;
+using Atlantic.Api.Facades.Validators;
 
 namespace Atlantic.Api.Facades.Extensions
 {
@@ -41,12 +41,17 @@ namespace Atlantic.Api.Facades.Extensions
             services.AddSingleton(settings)
                     .AddSingleton(settings.SwaggerCredentials)
                     .AddSingleton<IRedisService, RedisService>()
+                    .AddSingleton<IVariationsRepository, VariationsRepository>()
+                    .AddSingleton<ICategoriesRepository, CategoriesRepository>()
                     .AddSingleton<IProductsRepository, ProductsRepository>();
 
             services.AddScoped<CommonDependenciesFacade>()
+                    .AddScoped<IValidatorHelper, ValidatorHelper>()
                     .AddScoped<IWarnMeFacade, WarnMeFacade>()
-                    .AddScoped<IWarnMeService, WarnMeService>()
-                    .AddScoped<INotificationRepository, NotificationsRepository>();
+                    .AddScoped<IProductsFacade, ProductsFacade>()
+                    .AddScoped<IVariationsFacade, VariationsFacade>()
+                    .AddScoped<ICategoriesFacade, CategoriesFacade>()
+                    .AddScoped<IWarnMeService, WarnMeService>();
 
             services.AddHttpClient();
 
@@ -58,8 +63,7 @@ namespace Atlantic.Api.Facades.Extensions
             var mapperConfig = new MapperConfiguration(m => m.AddProfiles(
                 new List<Profile>()
                 {
-                    new AutoMapperProfile(),
-                    new TemplatesMapperProfile()
+                    new AutoMapperProfile()
                 }));
 
             services.AddSingleton(mapperConfig.CreateMapper());
@@ -87,13 +91,6 @@ namespace Atlantic.Api.Facades.Extensions
         {
             // TODO Add connection to another API
             return services;
-        }
-
-        public static void AddPostgresContext(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddDbContext<NotificationTemplatesContext>(options =>
-                options.UseNpgsql(configuration.GetConnectionString("Postgres"))
-            );
         }
 
         public static void AddMongoContext(this IServiceCollection services, IConfiguration configuration)

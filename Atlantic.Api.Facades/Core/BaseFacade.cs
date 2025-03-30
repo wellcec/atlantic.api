@@ -2,7 +2,7 @@
 using Serilog;
 using Atlantic.Api.Models.UI;
 
-namespace Atlantic.Api.Facades
+namespace Atlantic.Api.Facades.Core
 {
     public abstract class BaseFacade
     {
@@ -15,7 +15,7 @@ namespace Atlantic.Api.Facades
         {
             Logger = commonDependenciesFacade.Logger;
             Mapper = commonDependenciesFacade.Mapper;
-            ApiSettings = commonDependenciesFacade.ApiSettings;;        
+            ApiSettings = commonDependenciesFacade.ApiSettings; ;
         }
     }
 }

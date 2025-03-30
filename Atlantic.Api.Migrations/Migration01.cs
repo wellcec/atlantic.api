@@ -1,5 +1,4 @@
 ﻿using FluentMigrator;
-using Atlantic.Api.Data.NotificationTemplatesContext.Entities;
 
 namespace Atlantic.Api.Migrations
 {

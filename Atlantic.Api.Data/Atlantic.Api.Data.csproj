@@ -16,4 +16,8 @@
     <ProjectReference Include="..\Atlantic.Api.Models\Atlantic.Api.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="EcommerceDataContext\Mapper\" />
+  </ItemGroup>
+
 </Project>

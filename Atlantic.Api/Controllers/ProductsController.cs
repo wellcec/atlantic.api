@@ -1,13 +1,10 @@
 ﻿using System.Threading.Tasks;
-
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
 using Atlantic.Api.Facades.Interfaces;
-using Atlantic.Api.Models.WarnMe;
 using Atlantic.Api.Data.EcommerceDataContext.Repositories.Interfaces;
 using System.Linq;
-using MongoDB.Bson;
+using Atlantic.Api.Models.Extensions;
+using Atlantic.Api.Models.Context.Products;
 
 namespace Atlantic.Api.Controllers
 {
@@ -20,14 +17,17 @@ namespace Atlantic.Api.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly IProductsRepository _repository;
+        private readonly IProductsFacade _productsFacade;
 
         /// <summary>
         /// ProductsController
         /// </summary>
         /// <param name="repository"> repository</param>
-        public ProductsController(IProductsRepository repository)
+        /// <param name="productsFacade"> productsFacade</param>
+        public ProductsController(IProductsRepository repository, IProductsFacade productsFacade)
         {
             _repository = repository;
+            _productsFacade = productsFacade;
         }
 
         /// <summary>
@@ -39,13 +39,19 @@ namespace Atlantic.Api.Controllers
         {
             var list = _repository.GetProducts();
 
-            return Ok(
-                list.Select(x => new
-                {
-                    id = x._id.ToString(),
-                    x.name
-                })
-            );
+            return Ok(list);
+        }
+
+        /// <summary>
+        /// Add new product
+        /// </summary>
+        /// <param name="product">product</param>
+        [HttpPost("create")]
+        public async Task<IActionResult> InserProductAsync([FromBody] Product product)
+        {
+            var result = await _productsFacade.InsertProductAsync(product);
+
+            return result.ToActionResult();
         }
     }
 }
