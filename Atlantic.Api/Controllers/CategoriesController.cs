@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Atlantic.Api.Facades.Interfaces;
 using Atlantic.Api.Models.Extensions;
 using Atlantic.Api.Models.Context.Products;
+using System.Xml.Linq;
 
 namespace Atlantic.Api.Controllers
 {
@@ -46,6 +47,19 @@ namespace Atlantic.Api.Controllers
         public async Task<IActionResult> InsertCategoryAsync([FromBody] Category data)
         {
             var result = await _categoriesFacade.InsertCategoryAsync(data);
+
+            return result.ToActionResult();
+        }
+
+        /// <summary>
+        /// Update Category
+        /// </summary>
+        /// <param name="id">Id Category</param>
+        /// <param name="data">Category</param>
+        [HttpPut("{id}")]
+        public async Task<IActionResult> InsertCategoryAsync([FromRoute] string id,[FromBody] Category data)
+        {
+            var result = await _categoriesFacade.UpdateCategoryAsync(id, data);
 
             return result.ToActionResult();
         }

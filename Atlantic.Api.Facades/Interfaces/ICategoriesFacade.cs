@@ -8,5 +8,6 @@ namespace Atlantic.Api.Facades.Interfaces
     {
         ListCategoriesResponse GetAll(int page, int pageSize, string term);
         Task<BaseResponse> InsertCategoryAsync(Category category);
+        Task<BaseResponse> UpdateCategoryAsync(string id, Category category);
     }
 }

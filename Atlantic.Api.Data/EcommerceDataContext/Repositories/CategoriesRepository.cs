@@ -53,6 +53,15 @@ namespace Atlantic.Api.Data.EcommerceDataContext.Repositories
             return result.DeletedCount;
         }
 
+        public async Task<long> UpdateAsync(ObjectId id, Category category)
+        {
+            category.id = id;
+
+            var filter = Builders<Category>.Filter.Eq("id", id);
+            var result = await Categories.ReplaceOneAsync(filter, category);
+            return result.ModifiedCount;
+        }
+
         public async Task<CategoryDTO> GetById(ObjectId id)
         {
             var result = await Categories.FindAsync(x => x.id == id);

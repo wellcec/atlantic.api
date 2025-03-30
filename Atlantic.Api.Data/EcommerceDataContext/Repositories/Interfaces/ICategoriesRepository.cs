@@ -11,5 +11,6 @@ namespace Atlantic.Api.Data.EcommerceDataContext.Repositories.Interfaces
         Task<CategoryDTO> InsertAsync(Category item);
         Task<long> DeleteAsync(ObjectId id);
         Task<CategoryDTO> GetById(ObjectId id);
+        Task<long> UpdateAsync(ObjectId id, Category category);
     }
 }

@@ -2,6 +2,7 @@
 using Atlantic.Api.Models.Context.Products;
 using Atlantic.Api.Models.UI;
 using Microsoft.Extensions.Options;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Atlantic.Api.Data.EcommerceDataContext.Repositories
@@ -25,6 +26,20 @@ namespace Atlantic.Api.Data.EcommerceDataContext.Repositories
         {
             await Products.InsertOneAsync(product);
             return product;
+        }
+
+        public async Task<long> UpdateAsync(ObjectId id, Product product)
+        {
+            var filter = Builders<Product>.Filter.Eq("id", id);
+            var result = await Products.ReplaceOneAsync(filter, product);
+            return result.ModifiedCount;
+        }
+
+        public async Task<List<Product>> GeyByCategoryIdAsync(ObjectId categoryId)
+        {
+            var filter = Builders<Product>.Filter.ElemMatch<Category>("categories", Builders<Category>.Filter.Eq("id", categoryId));
+            var products = await Products.FindAsync(filter);
+            return products.ToList();
         }
     }
 }
