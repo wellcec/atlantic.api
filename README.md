@@ -1,2 +1,2 @@
 # atlantic.api
-Versão .Net Code da api de ecommerce
+.Net Core Api Ecommerce version
