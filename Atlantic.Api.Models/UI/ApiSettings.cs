@@ -38,5 +38,10 @@ namespace Atlantic.Api.Models.UI
         /// SwaggerCredentials
         /// </summary>
         public SwaggerCredentials SwaggerCredentials { get; set; }
+
+        /// <summary>
+        /// AmazonSettings
+        /// </summary>
+        public AmazonSettings AmazonSettings { get; set; }
     }
 }

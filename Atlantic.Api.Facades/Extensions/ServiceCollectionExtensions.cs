@@ -20,6 +20,7 @@ using Atlantic.Api.Data.EcommerceDataContext.Repositories.Interfaces;
 using Atlantic.Api.Data.EcommerceDataContext.Repositories;
 using Atlantic.Api.Facades.Core;
 using Atlantic.Api.Facades.Validators;
+using Amazon.S3;
 
 namespace Atlantic.Api.Facades.Extensions
 {
@@ -41,8 +42,10 @@ namespace Atlantic.Api.Facades.Extensions
             services.AddSingleton(settings)
                     .AddSingleton(settings.SwaggerCredentials)
                     .AddSingleton<IRedisService, RedisService>()
+                    .AddSingleton<IAmazonS3Service, AmazonS3Service>()
                     .AddSingleton<IVariationsRepository, VariationsRepository>()
                     .AddSingleton<ICategoriesRepository, CategoriesRepository>()
+                    .AddSingleton<IImagesRepository, ImagesRepository>()
                     .AddSingleton<IProductsRepository, ProductsRepository>();
 
             services.AddScoped<CommonDependenciesFacade>()
@@ -51,6 +54,7 @@ namespace Atlantic.Api.Facades.Extensions
                     .AddScoped<IProductsFacade, ProductsFacade>()
                     .AddScoped<IVariationsFacade, VariationsFacade>()
                     .AddScoped<ICategoriesFacade, CategoriesFacade>()
+                    .AddScoped<IImagesFacade, ImagesFacade>()
                     .AddScoped<IWarnMeService, WarnMeService>();
 
             services.AddHttpClient();
@@ -90,6 +94,18 @@ namespace Atlantic.Api.Facades.Extensions
         private static IServiceCollection AddWebServices(this IServiceCollection services, ApiSettings settings)
         {
             // TODO Add connection to another API
+            services.AddSingleton<IAmazonS3>(sp =>
+            {
+                var config = new AmazonS3Config
+                {
+                    RegionEndpoint = Amazon.RegionEndpoint.USEast1,
+                    ServiceURL = settings.AmazonSettings.BaseUrl,
+                    ForcePathStyle = true
+                };
+
+                return new AmazonS3Client(settings.AmazonSettings.KeyId, settings.AmazonSettings.AccessKey, config);
+            });
+
             return services;
         }
 
