@@ -12,9 +12,14 @@ namespace Atlantic.Api.Models.Mapper
         {
             CreateMap<Category, CategoryDTO>()
                 .ForMember(dest => dest.id, map => map.MapFrom(src => src.id.ToString()));
-            
+
             CreateMap<Variation, VariationDTO>()
                 .ForMember(dest => dest.id, map => map.MapFrom(src => src.id.ToString()));
+
+            CreateMap<Product, ProductDTO>()
+                .ForMember(dest => dest.id, map => map.MapFrom(src => src.id.ToString()))
+                .ForMember(dest => dest.categories, map => map.MapFrom(src => src.categories))
+                .ForMember(dest => dest.variations, map => map.MapFrom(src => src.variations));
         }
     }
 }

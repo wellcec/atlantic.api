@@ -28,7 +28,7 @@ namespace Atlantic.Api.Facades
 
         public ListVariationsResponse GetAll(int page, int pageSize, string term)
         {
-             return _variationsRepository.GetAll(page, pageSize, term);
+            return _variationsRepository.GetAll(page, pageSize, term);
         }
 
         public async Task<BaseResponse> InsertVariationAsync(Variation variation)
@@ -53,9 +53,26 @@ namespace Atlantic.Api.Facades
             }
         }
 
-        public async Task<long> DeleteAsync(string id)
+        public async Task<BaseResponse> DeleteAsync(string id)
         {
-            return await _variationsRepository.DeleteAsync(id);
+            try
+            {
+                if (string.IsNullOrEmpty(id))
+                {
+                    return new BaseResponse() { Code = HttpStatusCode.BadRequest, Message = "Id must not be empty" };
+                }
+
+                var idVariation = new MongoDB.Bson.ObjectId(id);
+
+                var result = await _variationsRepository.DeleteAsync(idVariation);
+
+                return new BaseResponse() { Code = HttpStatusCode.OK, Result = result };
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error on delete variation. Error: {E}", ex.Message);
+                return new BaseResponse() { Code = HttpStatusCode.InternalServerError, Message = ex.Message };
+            }
         }
     }
 }

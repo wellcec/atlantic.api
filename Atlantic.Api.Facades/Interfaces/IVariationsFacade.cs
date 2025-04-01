@@ -8,6 +8,6 @@ namespace Atlantic.Api.Facades.Interfaces
     {
         ListVariationsResponse GetAll(int page, int pageSize, string term);
         Task<BaseResponse> InsertVariationAsync(Variation variation);
-        Task<long> DeleteAsync(string id);
+        Task<BaseResponse> DeleteAsync(string id);
     }
 }

@@ -8,6 +8,6 @@ namespace Atlantic.Api.Data.EcommerceDataContext.Repositories.Interfaces
     {
         ListVariationsResponse GetAll(int page, int pageSize, string? term);
         Task<Variation> InsertAsync(Variation item);
-        Task<long> DeleteAsync(string id);
+        Task<long> DeleteAsync(ObjectId id);
     }
 }

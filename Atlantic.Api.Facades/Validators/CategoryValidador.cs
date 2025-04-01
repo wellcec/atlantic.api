@@ -6,11 +6,11 @@ namespace Atlantic.Api.Facades.Validators
     public class CategoryValidador : AbstractValidator<Category>
     {
 
-        public CategoryValidador() 
+        public CategoryValidador()
         {
             RuleFor(a => a.name)
                 .NotEmpty()
-                .WithMessage("Name cannot be empty");
+                .WithMessage("Nome não pode ser vazio");
         }
     }
 }

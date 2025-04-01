@@ -47,9 +47,9 @@ namespace Atlantic.Api.Data.EcommerceDataContext.Repositories
             return _mapper.Map<VariationDTO>(item);
         }
 
-        public async Task<long> DeleteAsync(string id)
+        public async Task<long> DeleteAsync(ObjectId id)
         {
-            var result = await Variations.DeleteOneAsync(x => x.id == new ObjectId(id));
+            var result = await Variations.DeleteOneAsync(x => x.id == id);
             return result.DeletedCount;
         }
     }

@@ -1,6 +1,6 @@
 ﻿namespace Atlantic.Api.Models.Context.Products
 {
-    public class StatusProduct : Entity
+    public class StatusProduct
     {
         public bool IsActive { get; set; }
         public bool IsHighlighted { get; set; }
