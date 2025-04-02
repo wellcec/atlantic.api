@@ -68,7 +68,12 @@ namespace Atlantic.Api.Facades
                     value = product.value,
                     valueUnique = product.valueUnique,
                     height = product.height,
-                    images = product.images,
+                    images = product.images.Select(i => new Image()
+                    {
+                        fileName = i.fileName,
+                        base64 = i.base64,
+                        createdDate = DateTime.Now,
+                    }).ToList(),
                     shipping = product.shipping,
                     weight = product.weight,
                     width = product.width,

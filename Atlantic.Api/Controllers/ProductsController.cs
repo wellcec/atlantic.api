@@ -59,7 +59,7 @@ namespace Atlantic.Api.Controllers
                 term = term,
                 categoryId = categoryId,
                 nameSubcategory = nameSubcategory,
-                tags = tags.Split(";"),
+                tags = tags == null ? null : tags.Split(";"),
                 minValue = minValue,
                 maxValue = maxValue
             };

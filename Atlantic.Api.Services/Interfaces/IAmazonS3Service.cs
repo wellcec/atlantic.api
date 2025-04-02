@@ -10,5 +10,6 @@ namespace Atlantic.Api.Services.Interfaces
         Task SaveImageToBucketAsync(IFormFile file, FolderImages folder);
         Task ProcessImageAsync(string fileName);
         Task<List<string>> GetAllFilesAsync(FolderImages folderImages);
+        Task DeleteImageAsync(string fileName, FolderImages folderImages);
     }
 }

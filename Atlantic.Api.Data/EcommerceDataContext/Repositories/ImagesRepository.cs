@@ -30,7 +30,7 @@ namespace Atlantic.Api.Data.EcommerceDataContext.Repositories
         public async Task<ImageDTO> GetByIdAsync(ObjectId id)
         {
             var result = await Images.Find(x => x.id == id).ToListAsync();
-            return _mapper.Map<ImageDTO>(result);
+            return _mapper.Map<ImageDTO>(result.First());
         }
 
         public async Task<ImageDTO> InsertAsync(Image item)

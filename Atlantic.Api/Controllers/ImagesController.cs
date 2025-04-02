@@ -66,5 +66,25 @@ namespace Atlantic.Api.Controllers
             var result = _imagesFacade.GetTemporaryImagesAsync();
             return Ok(result);
         }
+
+        /// <summary>
+        /// Delete temporary images
+        /// </summary>
+        [HttpDelete("temporary/{id}")]
+        public IActionResult DeleteTemporaryImagesAsync([FromRoute] string id)
+        {
+            var result = _imagesFacade.DeleteTempByIdAsync(id);
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Save images definitive
+        /// </summary>
+        [HttpDelete("clear")]
+        public async Task<IActionResult> ClearTempImagesAsync()
+        {
+            var result = await _imagesFacade.ClearTempImagesAsync();
+            return result.ToActionResult();
+        }
     }
 }

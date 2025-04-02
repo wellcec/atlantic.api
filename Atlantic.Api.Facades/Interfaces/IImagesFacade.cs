@@ -12,5 +12,7 @@ namespace Atlantic.Api.Facades.Interfaces
         Task<BaseResponse> SaveTemporaryImageAsync(IFormFile file);
         Task<BaseResponse> ProcessImageAsync();
         Task<BaseResponse> GetAllFilesAsync();
+        Task<BaseResponse> DeleteTempByIdAsync(string id);
+        Task<BaseResponse> ClearTempImagesAsync();
     }
 }

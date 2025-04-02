@@ -12,6 +12,7 @@ using Atlantic.Api.Models.Enums;
 using Atlantic.Api.Models.Responses;
 using Atlantic.Api.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
+using MongoDB.Bson;
 
 namespace Atlantic.Api.Facades
 {
@@ -58,7 +59,12 @@ namespace Atlantic.Api.Facades
 
                 await _imagesRepository.InsertAsync(imageToAdd);
 
-                return new BaseResponse() { Code = HttpStatusCode.OK, Message = "Arquivo enviado com sucesso para o S3!" };
+                return new BaseResponse() 
+                { 
+                    Code = HttpStatusCode.OK,
+                    Message = "Arquivo enviado com sucesso para o S3!",
+                    Result = imageToAdd
+                };
             }
             catch (Exception ex)
             {
@@ -102,6 +108,46 @@ namespace Atlantic.Api.Facades
             catch (Exception ex)
             {
                 Logger.Error("Error on get images. Error: {E}", ex.Message);
+                return new BaseResponse() { Code = HttpStatusCode.InternalServerError, Message = ex.Message };
+            }
+        }
+
+        public async Task<BaseResponse> DeleteTempByIdAsync(string id)
+        {
+            try
+            {
+                var idImage = new ObjectId(id);
+                var image = await _imagesRepository.GetByIdAsync(idImage);
+
+                await _amazonS3Service.DeleteImageAsync(image.fileName, FolderImages.TEMP);
+                await _imagesRepository.DeleteAsync(idImage);
+
+                return new BaseResponse() { Code = HttpStatusCode.OK };
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error on delete temp images. Error: {E}", ex.Message);
+                return new BaseResponse() { Code = HttpStatusCode.InternalServerError, Message = ex.Message };
+            }
+        }
+
+        public async Task<BaseResponse> ClearTempImagesAsync()
+        {
+            try
+            {
+                var images = _imagesRepository.GetAll();
+
+                foreach (var image in images)
+                {
+                    await _amazonS3Service.DeleteImageAsync(image.fileName, FolderImages.TEMP);
+                    await _imagesRepository.DeleteAsync(new ObjectId(image.id));
+                }
+
+                return new BaseResponse() { Code = HttpStatusCode.OK };
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error on delete temp images. Error: {E}", ex.Message);
                 return new BaseResponse() { Code = HttpStatusCode.InternalServerError, Message = ex.Message };
             }
         }

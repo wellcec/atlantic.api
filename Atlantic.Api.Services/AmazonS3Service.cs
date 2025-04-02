@@ -91,5 +91,18 @@ namespace Atlantic.Api.Services
 
             return list;
         }
+
+        public async Task DeleteImageAsync(string fileName, FolderImages folderImages)
+        {
+            var folder = folderImages.GetEnumDescription().ToLower() + "/";
+
+            var deleteRequest = new DeleteObjectRequest
+            {
+                BucketName = Constants.BUCKET_NAME,
+                Key = folder + fileName
+            };
+
+            await _s3Client.DeleteObjectAsync(deleteRequest);
+        }
     }
 }
